@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@id/loginScreen">
+    <activity
+        android:id="@+id/loginScreen"
+        android:name="com.poo.bibliosearch.LoginScreen"
+        android:label="login_screen"
+        tools:layout="@layout/login_screen" />
+    <activity
+        android:id="@+id/registerScreen"
+        android:name="com.poo.bibliosearch.RegisterScreen"
+        android:label="register_screen"
+        tools:layout="@layout/register_screen" />
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.poo.bibliosearch.Fragments.HomeFragment"
+        android:label="HomeFragment" />
+    <activity
+        android:id="@+id/homeMenu"
+        android:name="com.poo.bibliosearch.HomeMenu"
+        android:label="home_screen"
+        tools:layout="@layout/home_screen" />
+    <fragment
+        android:id="@+id/libraryFragment"
+        android:name="com.poo.bibliosearch.Fragments.LibraryFragment"
+        android:label="LibraryFragment" >
+        <action
+            android:id="@+id/action_libraryFragment_to_bookDetailFragment"
+            app:destination="@id/bookDetailFragment" />
+        <action
+            android:id="@+id/action_libraryFragment_to_createBookScreen"
+            app:destination="@id/createBookScreen" />
+    </fragment>
+    <fragment
+        android:id="@+id/usersFragment"
+        android:name="com.poo.bibliosearch.Fragments.UsersFragment"
+        android:label="UsersFragment" />
+    <activity
+        android:id="@+id/createBookScreen"
+        android:name="com.poo.bibliosearch.CreateBookScreen"
+        android:label="CreateBookScreen" />
+    <fragment
+        android:id="@+id/bookDetailFragment"
+        android:name="com.poo.bibliosearch.Fragments.BookDetailFragment"
+        android:label="BookDetailFragment" />
+</navigation>
