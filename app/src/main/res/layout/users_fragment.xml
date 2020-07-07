@@ -34,26 +34,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/new_admin_user"
+            android:text="@string/new_user_admin"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
     </LinearLayout>
-    <TextView
-        android:id="@+id/tv_usuario_invalido"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:padding="20dp"
-        android:text="Inicia sesion como administrador para tener acceso a este recurso"
-        android:textSize="36sp"
-        android:textStyle="bold|italic"
-        android:background="@color/colorPrimaryDark"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

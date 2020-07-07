@@ -5,11 +5,11 @@ import java.util.ArrayList;
 public class User {
 
     public boolean isAdmin;
-    String firstName,lastName,userName,password,college,email,TYPE;
+    String firstName, lastName, userName, password, college, email, TYPE, idNumber;
     Boolean isActive;
-    ArrayList<Book> myBooks;
+    ArrayList<Book> myBooks = new ArrayList<>();
 
-    public User(String userName, String password, String email, String firstName, String lastName, String college, boolean isAdmin){
+    public User(String userName, String idNumber, String password, String email, String firstName, String lastName, String college, boolean isAdmin) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -19,9 +19,10 @@ public class User {
         this.isActive = true;
         this.isAdmin = isAdmin;
         TYPE = "USER";
-        myBooks = null;
+        this.idNumber = idNumber;
     }
-    public User(String userName, String password, String email, String firstName, String lastName, String college){
+
+    public User(String userName, String idNumber, String password, String email, String firstName, String lastName, String college) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -30,10 +31,11 @@ public class User {
         this.password = password;
         this.isActive = true;
         this.isAdmin = false;
+        this.idNumber = idNumber;
         TYPE = "USER";
     }
 
-    public User(){
+    public User() {
         this.userName = "empty";
         this.email = "empty@empty.com";
         this.password = "empty";
@@ -71,6 +73,18 @@ public class User {
         return password;
     }
 
+    public String getDocument() {
+        return idNumber;
+    }
+
+    public void setIdNumber(String idNumber) {
+        this.idNumber = idNumber;
+    }
+
+    public void setMyBooks(ArrayList<Book> myBooks) {
+        this.myBooks = myBooks;
+    }
+
     public void setPassword(String password) {
         this.password = password;
     }
@@ -99,11 +113,20 @@ public class User {
         isActive = active;
     }
 
-    public String getTYPE (){
+    public String getTYPE() {
         return TYPE;
     }
 
     public ArrayList<Book> getMyBooks() {
         return myBooks;
+    }
+
+    public void addBook(Book book) {
+        myBooks.add(book);
+    }
+
+    public void removeBook(Book book) {
+        myBooks.remove(book);
+
     }
 }

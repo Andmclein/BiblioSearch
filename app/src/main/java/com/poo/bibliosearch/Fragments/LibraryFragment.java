@@ -5,12 +5,17 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
+import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,8 +34,9 @@ import java.util.ArrayList;
 import static com.poo.bibliosearch.LoginScreen.BOOKS;
 import static com.poo.bibliosearch.LoginScreen.LOG;
 import static com.poo.bibliosearch.LoginScreen.SHARED_PREFS;
+import static com.poo.bibliosearch.LoginScreen.items;
 
-public class LibraryFragment extends Fragment {
+public class LibraryFragment extends Fragment implements SearchView.OnQueryTextListener, MenuItem.OnActionExpandListener{
     //Para acción del botón
     private onFragmentButtonSelected listener;
 
@@ -48,8 +54,10 @@ public class LibraryFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.library_fragment, container, false);
+        setHasOptionsMenu(true);
         recyclerViewBooks = view.findViewById(R.id.rv_library_list);
         loadLog();
         botonCrear = view.findViewById(R.id.btn_newBook);
@@ -122,10 +130,56 @@ public class LibraryFragment extends Fragment {
         });
     }
 
+    @Override
+    public boolean onMenuItemActionExpand(MenuItem item) {
+        return false;
+    }
+
+    @Override
+    public boolean onMenuItemActionCollapse(MenuItem item) {
+        adapterBook.setFilter(books);
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        loadBooks();
+        if(newText ==null||newText.trim().isEmpty()){
+            adapterBook.setFilter(books);
+            return false;
+        }
+
+        newText = newText.toLowerCase();
+        final ArrayList<Book> filteredBooksList =new ArrayList<>();
+        for(Book book:books) {
+            final String name = book.getName().toLowerCase();
+            final String id = String.valueOf(book.getIdNumber());
+            
+            if(name.contains(newText)||id.contains(newText)){
+                filteredBooksList.add(book);
+            }
+        }
+        adapterBook.setFilter(filteredBooksList);
+        return true;
+    }
+
     public interface onFragmentButtonSelected {
         public void onButtonSelected();
 
     }
 
-
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.toolbar_menu,menu);
+        MenuItem item = menu.findItem(R.id.action_search_menu);
+        MenuItemCompat.setShowAsAction(item, MenuItemCompat.SHOW_AS_ACTION_ALWAYS | MenuItemCompat.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
+        SearchView searchView = (SearchView)MenuItemCompat.getActionView(item);
+        searchView.setOnQueryTextListener(this);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
 }

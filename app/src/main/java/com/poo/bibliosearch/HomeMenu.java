@@ -12,16 +12,20 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.poo.bibliosearch.Adapters.AdapterBook;
 import com.poo.bibliosearch.Entities.Book;
 import com.poo.bibliosearch.Entities.Login;
 import com.poo.bibliosearch.Entities.User;
@@ -57,15 +61,12 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
     TextView userLogged;
     TextView emailLogged;
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
-       getMenuInflater().inflate(R.menu.toolbar_menu, menu);
-
         super.onCreateOptionsMenu(menu);
         return true;
     }
+
 
 
     @Override
@@ -83,6 +84,14 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
         // establecer onclick de navigation view
         navigationView = findViewById(R.id.navigationView);
         navigationView.setNavigationItemSelectedListener(this);
+
+        //Desactiva el menú usuarios si no se es administrador
+        Menu menut=navigationView.getMenu();
+        if (!((Login) items.get(0)).getLogedAsAdmin()){
+            menut.getItem(2).setVisible(false);
+        }
+
+
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close);
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
@@ -95,9 +104,11 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
         fragmentTransaction.commit();
 
 
+
+
         View headerView = navigationView.getHeaderView(0);
-        userLogged = (TextView) headerView.findViewById(R.id.txt_logged_user);
-        emailLogged = (TextView) headerView.findViewById(R.id.txt_logged_email);
+        userLogged = headerView.findViewById(R.id.txt_logged_user);
+        emailLogged = headerView.findViewById(R.id.txt_logged_email);
         userLogged.setText(((Login) items.get(0)).getUser().getFirstName() + " " + ((Login) items.get(0)).getUser().getLastName());
         emailLogged.setText(((Login) items.get(0)).getUser().getEmail());
 
@@ -122,33 +133,13 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
             finish();
         }
 
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
     }
 
     @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
-        int itemCompare = item.getItemId();
-        int title;
-        switch (itemCompare) {
-            case R.id.logoutToolbarItem_menu:
-                title = R.string.log_out;
-                load(LOG);
-                items.clear();
-                items.add(new Login(new User(), false, false));
-                save(items, LOG);
-                Intent intent = new Intent(this, LoginScreen.class);
-                startActivity(intent);
-                finish();
-                break;
-
-            //Se pueden agregar más y mas menus
-
-            default:
-                throw new IllegalArgumentException("menu option not implemented");
-        }
-        setTitle(getString(title));
         drawerLayout.closeDrawer(GravityCompat.START);
 
         return false;
@@ -169,6 +160,8 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
                 fragmentTransaction.replace(R.id.container, new HomeFragment());
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
+
+
                 break;
             case R.id.books_menu_item:
                 title = R.string.books;
@@ -188,19 +181,18 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
                 fragmentTransaction.commit();
                 break;
 
-//            case R.id.logoutToolbarItem_menu:
-//                title = R.string.log_out;
-//                load(LOG);
-//                items.clear();
-//                items.add(new Login(new User(), false, false));
-//                save(items, LOG);
-//                Intent intent = new Intent(this, LoginScreen.class);
-//                startActivity(intent);
-//                finish();
-//                break;
-
-
             //Se pueden agregar más y mas menus
+            case R.id.logoutToolbarItem_menu:
+                title = R.string.log_out;
+                load(LOG);
+                items.clear();
+                items.add(new Login(new User(), false, false));
+                save(items, LOG);
+                Intent intent = new Intent(this, LoginScreen.class);
+                startActivity(intent);
+                finish();
+                setTitle(getString(title));
+                break;
 
             default:
                 throw new IllegalArgumentException("menu option not implemented");

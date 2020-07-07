@@ -1,14 +1,20 @@
 package com.poo.bibliosearch;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RatingBar;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -27,9 +33,10 @@ public class CreateBookScreen extends AppCompatActivity {
 
     Type type;
     ArrayList<Object> items;
-    EditText et_c_name, et_c_author, et_c_description, et_c_release_year;
-    Button btn_c_save_book;
+    EditText et_c_name, et_c_author, et_c_description, et_c_release_year,et_c_cant;
+    Button btn_c_save_book, btn_c_upload_cover;
     RatingBar ratingBar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,12 +44,14 @@ public class CreateBookScreen extends AppCompatActivity {
         setContentView(R.layout.create_book_screen);
     }
 
+
     public void createBook(View view) {
 
         et_c_name = findViewById(R.id.et_c_name);
         et_c_author = findViewById(R.id.et_c_author);
         et_c_description = findViewById(R.id.et_c_description);
         et_c_release_year = findViewById(R.id.et_c_release_year);
+        et_c_cant = findViewById(R.id.et_c_name2);
         btn_c_save_book = findViewById(R.id.btn_c_save_book);
         ratingBar = findViewById(R.id.c_ratingbar);
 
@@ -50,23 +59,35 @@ public class CreateBookScreen extends AppCompatActivity {
         String author = et_c_author.getText().toString();
         String description = et_c_description.getText().toString();
         int releaseYear = Integer.parseInt(et_c_release_year.getText().toString());
-        int ratingBarStars = ratingBar.getNumStars();
+        int cant = Integer.parseInt(et_c_cant.getText().toString());
+        float ratingBarStars = ratingBar.getRating();
 
 
-        load(BOOKS);
-        Book newBook = new Book(items.size(), R.drawable.ic_book_1, name, author, description, releaseYear, ratingBarStars);
-        items.add(newBook);
-        save(items, BOOKS);
-        Intent intent = new Intent(getApplicationContext(), HomeMenu.class);
-        startActivity(intent);
-        finish();
+        if (isValidBook(name, author, description, releaseYear)) {
+            load(BOOKS);
+            Book newBook = new Book(items.size(), R.drawable.ic_book_1,
+                    name, author, description, releaseYear, ratingBarStars,cant);
+            items.add(newBook);
+            save(items, BOOKS);
+            Intent intent = new Intent(getApplicationContext(), HomeMenu.class);
+            startActivity(intent);
+            finish();
+        }
 
+    }
 
+    private boolean isValidBook(String name, String author, String description, int releaseYear) {
+        boolean isValidBook;
+        if (name.isEmpty() || author.isEmpty() || description.isEmpty() || releaseYear == 0) {
+            isValidBook = false;
+            Toast.makeText(this, "Complete todos los campos", Toast.LENGTH_SHORT).show();
+        } else isValidBook = true;
+        return (isValidBook);
     }
 
     @Override
     public void onBackPressed() {
-     startActivity(getParentActivityIntent());
+        startActivity(getParentActivityIntent());
     }
 
     public void load(String TYPE) {

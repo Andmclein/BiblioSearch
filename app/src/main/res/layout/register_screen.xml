@@ -49,7 +49,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30sp"
                 android:text="@string/first_name"
-                android:textSize="15dp"
+                android:textSize="15sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/frame" />
@@ -65,12 +65,33 @@
                 app:layout_constraintTop_toBottomOf="@+id/tv_first_name" />
 
             <TextView
+                android:id="@+id/tv_document"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8sp"
+                android:text="@string/documento"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txt_last_name" />
+
+            <EditText
+                android:id="@+id/txt_document"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="number"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_document" />
+
+            <TextView
                 android:id="@+id/tv_last_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="@string/last_name"
-                android:textSize="15dp"
+                android:textSize="15sp"
                 app:layout_constraintStart_toStartOf="@+id/tv_first_name"
                 app:layout_constraintTop_toBottomOf="@+id/txt_first_name" />
 
@@ -89,10 +110,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="@string/email"
-                android:textSize="15dp"
+                android:textSize="15sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txt_last_name" />
+                app:layout_constraintTop_toBottomOf="@+id/txt_document" />
 
             <EditText
                 android:id="@+id/txt_r_email"
@@ -109,7 +130,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="@string/user_name"
-                android:textSize="15dp"
+                android:textSize="15sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/txt_r_email" />
@@ -129,7 +150,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="@string/university"
-                android:textSize="15dp"
+                android:textSize="15sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/txt_user_name" />
@@ -149,7 +170,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="@string/create_password"
-                android:textSize="15dp"
+                android:textSize="15sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/et_college" />
@@ -169,7 +190,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="@string/confirm_password"
-                android:textSize="15dp"
+                android:textSize="15sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/txt_create_password" />
@@ -183,6 +204,7 @@
                 app:layout_constraintStart_toStartOf="@+id/txt_create_password"
                 app:layout_constraintTop_toBottomOf="@+id/tv_confirm_password" />
 
+
             <Button
                 android:id="@+id/btn_confirm_register"
                 android:layout_width="match_parent"
@@ -190,6 +212,16 @@
                 android:layout_marginTop="24dp"
                 android:onClick="ConfirmRegister"
                 android:text="@string/register"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/switch_is_admin" />
+
+            <Switch
+                android:id="@+id/switch_is_admin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/crear_como_administrador"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/txt_confirm_password" />

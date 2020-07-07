@@ -18,12 +18,16 @@
 
     </group>
     <group android:id="@+id/admin_side_menu_group">
-    <item
-        android:id="@+id/users_menu_item"
-        android:icon="@drawable/ic_book_2"
-        android:title="@string/users"
-        app:showAsAction="never"
-        android:visible="true"/>
+        <item
+            android:id="@+id/users_menu_item"
+            android:icon="@drawable/ic_users"
+            android:title="@string/users"
+            app:showAsAction="never" />
     </group>
+    <item
+        android:id="@+id/logoutToolbarItem_menu"
+        android:icon="@drawable/ic_log_out"
+        android:title="@string/log_out"
+        app:showAsAction="collapseActionView" />
 
 </menu>

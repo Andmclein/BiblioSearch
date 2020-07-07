@@ -16,6 +16,7 @@
         android:padding="10dp">
 
         <ImageView
+            android:contentDescription="@string/books"
             android:id="@+id/cv_b_cover"
             android:layout_width="75dp"
             android:layout_height="75dp"
@@ -27,33 +28,71 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_toEndOf="@id/cv_b_cover"
-            android:textSize="20dp"
+            android:text="@string/texto_de_ejemplo"
+            android:textSize="20sp"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/cv_b_Author"
+
+        <LinearLayout
+            android:id="@+id/main_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/cv_name"
-            android:layout_alignStart="@+id/cv_name"
-            android:layout_marginStart="0dp"
-            android:layout_marginTop="11dp"
-            android:textSize="15dp"
-            android:textStyle="italic" />
-        <TextView
-            android:id="@+id/cv_b_id"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/cv_name"
-            android:gravity="end"
-            android:layout_toEndOf="@id/cv_b_cover"
             android:layout_alignParentEnd="true"
-            android:layout_alignStart="@+id/cv_name"
-            android:layout_marginStart="0dp"
-            android:layout_marginTop="11dp"
-            android:text="id"
-            android:textSize="15dp"
-            android:textStyle="italic" />
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="0dp"
+            android:layout_toEndOf="@id/cv_b_cover"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:id="@+id/cv_b_Author"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginTop="10dp"
+                android:text="@string/texto_de_ejemplo"
+                android:textSize="15sp"
+                android:textStyle="italic" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center_horizontal"                >
+
+                <TextView
+                    android:id="@+id/cv_b_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/texto_de_ejemplo"
+                    android:textSize="12sp"
+
+                    android:textStyle="italic"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/cv_b_available_book"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/texto_de_ejemplo"
+                    android:textStyle="italic|bold"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/cv_b_cant"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:text="@string/texto_de_ejemplo"
+                android:textSize="10sp"
+                android:textStyle="italic" />
+        </LinearLayout>
 
     </RelativeLayout>
 

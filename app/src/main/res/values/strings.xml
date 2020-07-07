@@ -30,6 +30,24 @@
     <string name="reserve">Reservar</string>
     <string name="search">Buscar</string>
     <string name="delete_user">Eliminar Usuario</string>
-    <string name="new_admin_user">Nuevo administrador</string>
+    <string name="new_user_admin">Nuevo usuario</string>
     <string name="home_menu">Menú inicio</string>
+    <string name="example">example</string>
+    <string name="activar_usuario">Activar usuario</string>
+    <string name="texto_de_ejemplo">Texto de ejemplo</string>
+    <string name="desactivar_usuario">Desactivar Usuario</string>
+    <string name="documento">Documento de identidad</string>
+    <string name="ejemplo">Ejemplo</string>
+    <string name="return_book">Devolver libro</string>
+    <string name="usuario_bloqueado">Usuario bloqueado</string>
+    <string name="libros_en_prestamo">Libros que tienes en prestamo</string>
+    <string name="titulo_del_libro">Titulo del libro</string>
+    <string name="autor">Autor</string>
+    <string name="descripci_n_o_sin_psis">Descripción o sinópsis</string>
+    <string name="cantidad">Cantidad</string>
+    <string name="a_o_de_publicaci_n">Año de publicación</string>
+    <string name="calificaci_n">Calificación</string>
+    <string name="guardar_libro">Guardar libro</string>
+    <string name="nuevo_libro">Nuevo libro</string>
+    <string name="crear_como_administrador">¿ Crear como administrador ?</string>
 </resources>

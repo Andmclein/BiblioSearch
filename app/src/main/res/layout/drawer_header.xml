@@ -12,17 +12,14 @@
     android:paddingBottom="16dp">
 
     <ImageView
+        android:id="@+id/biblioSearchLogo"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
 
-        android:id="@+id/logo_header"
-        android:layout_width="166dp"
-        android:layout_height="44dp"
-        android:layout_gravity="center"
-        android:paddingTop="20dp"
-        android:scaleType="centerCrop"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:src="@mipmap/ic_bibliosearch_new_foreground" />
+        android:contentDescription="@string/logo_bibliosearch"
+        android:src="@drawable/bibliosearch"
+        />
 
 
     <TextView
@@ -32,7 +29,7 @@
 
         android:gravity="center"
 
-        android:text="Drawer Header"
+        android:text=""
         android:textColor="@color/colorPrimary"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -49,7 +46,7 @@
 
         android:gravity="center"
         android:paddingBottom="10dp"
-        android:text="Drawer subTitle"
+        android:text=""
         android:textColor="@color/colorPrimary"
         android:textSize="15sp"
         android:textStyle="italic"

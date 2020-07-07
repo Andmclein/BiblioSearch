@@ -2,6 +2,7 @@ package com.poo.bibliosearch.Fragments;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,11 +26,13 @@ import com.poo.bibliosearch.Adapters.AdapterUser;
 import com.poo.bibliosearch.Entities.Login;
 import com.poo.bibliosearch.R;
 import com.poo.bibliosearch.Entities.User;
+import com.poo.bibliosearch.RegisterScreen;
 import com.poo.bibliosearch.iComunicaFragments;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
+import static android.content.Context.MODE_PRIVATE;
 import static com.poo.bibliosearch.LoginScreen.LOG;
 import static com.poo.bibliosearch.LoginScreen.SHARED_PREFS;
 import static com.poo.bibliosearch.LoginScreen.USERS;
@@ -43,10 +47,9 @@ public class UsersFragment extends Fragment {
 
     AdapterUser adapterUser;
     RecyclerView recyclerViewUsers;
-    Button delete, newAdmin;
+    Button  newAdmin;
     View view;
     ConstraintLayout cl_user_fragment;
-    TextView usuario_invalido;
 
     Activity actividad;
     iComunicaFragments interfaceComunicaFragments;
@@ -58,16 +61,20 @@ public class UsersFragment extends Fragment {
         recyclerViewUsers = view.findViewById(R.id.rv_user_list);
         newAdmin = view.findViewById(R.id.rv_u_btn_newUser);
         cl_user_fragment = view.findViewById(R.id.cl_user_fragment);
-        usuario_invalido = view.findViewById(R.id.tv_usuario_invalido);
         loadLog();
         loadUsers();
         if (!logins.get(0).getLogedAsAdmin()) {
             users.clear();
             cl_user_fragment.setVisibility(View.GONE);
             newAdmin.setVisibility(View.GONE);
-        } else {
-            usuario_invalido.setVisibility(View.GONE);
         }
+        newAdmin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), RegisterScreen.class);
+                startActivity(intent);
+            }
+        });
 
 
         showData();
@@ -77,7 +84,7 @@ public class UsersFragment extends Fragment {
 
     @Override
     public void onAttach(Context context) {
-        sharedPreferences = context.getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+        sharedPreferences = context.getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
         super.onAttach(context);
     }
 
@@ -119,8 +126,16 @@ public class UsersFragment extends Fragment {
     }
 
 
+    public void save(String TYPE) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String itemJson = gson.toJson(users);
+        editor.putString(TYPE, itemJson);
+        editor.apply();
+    }
+
     public interface onFragmentButtonSelected {
-        public void onButtonSelected();
+        void onButtonSelected();
 
     }
 }
