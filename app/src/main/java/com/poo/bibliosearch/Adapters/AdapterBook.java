@@ -96,6 +96,7 @@ public class AdapterBook extends RecyclerView.Adapter<AdapterBook.ViewHolder> im
     public Filter getFilter() {
         return filter;
     }
+
     public void setFilter(ArrayList<Book> books){
         
         items.clear();

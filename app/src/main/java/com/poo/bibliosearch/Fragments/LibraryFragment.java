@@ -141,6 +141,8 @@ public class LibraryFragment extends Fragment implements SearchView.OnQueryTextL
         return false;
     }
 
+    // 1
+
     @Override
     public boolean onQueryTextSubmit(String query) {
         return true;

@@ -120,7 +120,7 @@ public class BookDetailFragment extends Fragment {
             }
             if (!auxLogged.getActive()) {
                 usuarioBloqueado.setVisibility(View.VISIBLE);
-
+                reservar.setVisibility(View.GONE);
             }
         } else {
             reservar.setVisibility(View.GONE);
@@ -240,7 +240,7 @@ public class BookDetailFragment extends Fragment {
                                 texto = "el usuario no tiene este libro en prestamo";
                                 break;
                             case 3:
-                                texto = "el usuario no tiene libro en prestamo";
+                                texto = "el usuario no tiene libros en prestamo";
                                 break;
                             default:
                                 texto = "libro devuelto correctamente";
