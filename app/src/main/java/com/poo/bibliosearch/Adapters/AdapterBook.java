@@ -24,8 +24,8 @@ import java.util.List;
 public class AdapterBook extends RecyclerView.Adapter<AdapterBook.ViewHolder> implements View.OnClickListener, Filterable {
 
     LayoutInflater inflater;
-    ArrayList<Book> items;
-    ArrayList<Book> itemsFull;
+    ArrayList<Book> items; //lista filtrada
+    ArrayList<Book> itemsFull; //lista original
     View.OnClickListener listener;
 
 
@@ -110,7 +110,7 @@ public class AdapterBook extends RecyclerView.Adapter<AdapterBook.ViewHolder> im
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
 
-            List<Book> filteredList = new ArrayList<>();
+           final  List<Book> filteredList = new ArrayList<>();
             if (constraint.toString().isEmpty()) {
                 filteredList.addAll(itemsFull);
             }else{
@@ -123,6 +123,7 @@ public class AdapterBook extends RecyclerView.Adapter<AdapterBook.ViewHolder> im
 
             FilterResults filteredResults = new FilterResults();
             filteredResults.values = filteredList;
+            filteredResults.count = filteredList.size();
             return filteredResults;
         }
 
@@ -133,6 +134,11 @@ public class AdapterBook extends RecyclerView.Adapter<AdapterBook.ViewHolder> im
         notifyDataSetChanged();
         }
     };
+
+    public ArrayList<Book> getItems (){
+
+        return items;
+    }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 

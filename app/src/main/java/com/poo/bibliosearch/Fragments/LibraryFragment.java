@@ -39,7 +39,6 @@ import static com.poo.bibliosearch.LoginScreen.SHARED_PREFS;
 public class LibraryFragment extends Fragment implements SearchView.OnQueryTextListener, MenuItem.OnActionExpandListener{
     //Para acción del botón
     private onFragmentButtonSelected listener;
-
     AdapterBook adapterBook;
     RecyclerView recyclerViewBooks;
     Button botonCrear;
@@ -79,6 +78,14 @@ public class LibraryFragment extends Fragment implements SearchView.OnQueryTextL
         loadBooks();
         //mostrar los datos
         showData();
+
+        adapterBook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ArrayList<Book> aux1 = adapterBook.getItems();
+                interfaceComunicaFragments.sendBooks(aux1.get(recyclerViewBooks.getChildAdapterPosition(view)));
+            }
+        });
 
         return view;
     }
@@ -122,12 +129,7 @@ public class LibraryFragment extends Fragment implements SearchView.OnQueryTextL
         adapterBook = new AdapterBook(getContext(), books);
         recyclerViewBooks.setAdapter(adapterBook);
 
-        adapterBook.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                interfaceComunicaFragments.sendBooks(books.get(recyclerViewBooks.getChildAdapterPosition(view)));
-            }
-        });
+
     }
 
     @Override
@@ -169,15 +171,7 @@ public class LibraryFragment extends Fragment implements SearchView.OnQueryTextL
     }
 
     public interface onFragmentButtonSelected {
-        public void onButtonSelected();
-
-    }
-
-    @Override
-    public void onResume() {
-        loadBooks();
-        adapterBook.setFilter(books);
-        super.onResume();
+        void onButtonSelected();
     }
 
     @Override
