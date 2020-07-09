@@ -91,7 +91,6 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
             menut.getItem(2).setVisible(false);
         }
 
-
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close);
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
@@ -103,38 +102,35 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
         fragmentTransaction.add(R.id.container, new HomeFragment());
         fragmentTransaction.commit();
 
-
-
-
+        //Asigna los valores de nombre y correo en el menú desplegable
         View headerView = navigationView.getHeaderView(0);
         userLogged = headerView.findViewById(R.id.txt_logged_user);
         emailLogged = headerView.findViewById(R.id.txt_logged_email);
         userLogged.setText(((Login) items.get(0)).getUser().getFirstName() + " " + ((Login) items.get(0)).getUser().getLastName());
         emailLogged.setText(((Login) items.get(0)).getUser().getEmail());
-
-
     }
 
     @Override
     public void onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
+        }else{
+            if (fragmentManager.getBackStackEntryCount() !=0)
+                fragmentManager.popBackStack();
+            else{
+                if (logger != 1) {
+                    logger++;
+                    Toast.makeText(this, "presiona atras de nuevo para cerrar sesion", Toast.LENGTH_SHORT).show();
+                } else {
+                    load(LOG);
+                    items.clear();
+                    items.add(new Login(new User(), false, false));
+                    save(items, LOG);
+                    startActivity(getParentActivityIntent());
+                    finish();
+                }
+            }
         }
-
-        if (logger != 1) {
-            logger++;
-            Toast.makeText(this, "presiona atras de nuevo para cerrar sesion", Toast.LENGTH_SHORT).show();
-        } else {
-            load(LOG);
-            items.clear();
-            items.add(new Login(new User(), false, false));
-            save(items, LOG);
-            startActivity(getParentActivityIntent());
-            finish();
-        }
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
     }
 
     @SuppressLint("NonConstantResourceId")
@@ -152,33 +148,29 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
 
         int itemCompare = item.getItemId();
         int title;
+        fragmentManager = getSupportFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
         switch (itemCompare) {
             case R.id.home_menu_item:
                 title = R.string.home_menu;
-                fragmentManager = getSupportFragmentManager();
-                fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.container, new HomeFragment());
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
-
-
+                logger=0;
                 break;
             case R.id.books_menu_item:
                 title = R.string.books;
-                fragmentManager = getSupportFragmentManager();
-                fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.container, new LibraryFragment());
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
-
+                logger=0;
                 break;
             case R.id.users_menu_item:
                 title = R.string.users;
-                fragmentManager = getSupportFragmentManager();
-                fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.container, new UsersFragment());
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
+                logger=0;
                 break;
 
             //Se pueden agregar más y mas menus
@@ -192,6 +184,7 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
                 startActivity(intent);
                 finish();
                 setTitle(getString(title));
+                logger=0;
                 break;
 
             default:

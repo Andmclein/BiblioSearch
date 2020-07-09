@@ -25,6 +25,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.poo.bibliosearch.Adapters.AdapterBook;
 import com.poo.bibliosearch.Entities.Book;
 import com.poo.bibliosearch.Entities.Login;
 import com.poo.bibliosearch.Entities.User;
@@ -46,7 +47,7 @@ public class BookDetailFragment extends Fragment {
 
     TextView name, author, releaseYear, id, description, usuarioBloqueado;
     ImageView cover;
-    Button historial, reservar, devolver;
+    Button historial, reservar, devolver,borrar;
     RatingBar rating;
 
     ArrayList<User> users;
@@ -57,8 +58,8 @@ public class BookDetailFragment extends Fragment {
 
     Book book = null;
     User auxLogged;
-    String inputText = "";
-    String texto ="";
+//    String inputText = "";
+//    String texto ="";
 
 
     public void onAttach(@NotNull Context context) {
@@ -89,6 +90,7 @@ public class BookDetailFragment extends Fragment {
         reservar = view.findViewById(R.id.reservar_libro);
         devolver = view.findViewById(R.id.devolucion_libro);
         historial = view.findViewById(R.id.historial_libro);
+        borrar = view.findViewById(R.id.borrar_libro);
 //        crear objeto bundle para recibir objeto enviado
         Bundle bundleIn = getArguments();
 
@@ -110,6 +112,7 @@ public class BookDetailFragment extends Fragment {
         if (!auxLogged.isAdmin) {
             historial.setVisibility(View.GONE);
             devolver.setVisibility(View.GONE);
+            borrar.setVisibility(View.GONE);
 
 
             for (int i = 0; i < auxLogged.getMyBooks().size(); i++) {
@@ -129,38 +132,14 @@ public class BookDetailFragment extends Fragment {
         reservar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                 builder.setTitle("Confirmación");
                 builder.setMessage("¿Seguro que desea reservar el libro?").setPositiveButton("Sí", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        for (int k = 0; k < books.size(); k++) {
-                            if (book.getIdNumber() == books.get(k).getIdNumber()) {
-                                books.get(k).setCant(book.getCant() - 1);
-                                book.setCant(book.getCant() - 1);
-                                break;
-                            }
-
-                        }
-                        for (int i = 0; i < users.size(); i++) {
-
-                            if (auxLogged.getDocument().equals(users.get(i).getDocument())) {
-
-                                users.get(i).addBook(book);
-                                break;
-                            }
-                        }
-                        logins.get(0).getUser().addBook(book);
-
-                        saveUsers();
-                        saveLogins();
-                        saveBooks();
-
+                        reservar();
                         Toast.makeText(getContext(), "Libro reservado correctamente", Toast.LENGTH_SHORT).show();
                         reservar.setVisibility(View.GONE);
-
-
                     }
                 }).setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
                     @Override
@@ -186,69 +165,7 @@ public class BookDetailFragment extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
-                       // se deben cargar de nuevo los datos
-                        loadUsers();
-                        loadLog();
-                        loadBooks();
-                        int CASE = 0;
-                        inputText = input.getText().toString();
-
-
-                        for (int i = 0; i < users.size(); i++) {
-                        //recorre los usuarios
-                            if (inputText.equals(users.get(i).getDocument())) {
-                            //si lo encuentra inicia el for, si no reinicia el bucle anterior
-                            //si termina sin encontrar el usuario CASE =1
-
-                                for (int k = 0; k < users.get(i).getMyBooks().size(); k++) {
-                                // Recorre los libros
-                                    if(users.get(i).getMyBooks().isEmpty()){
-                                    //si ese usuario no tiene libros no ejecuta la busqueda y sale del ciclo
-                                    //CASE = 3
-
-                                        CASE = 3;
-                                        break;
-                                    }else if (users.get(i).getMyBooks().get(k).getIdNumber() == book.getIdNumber()) {
-                                        //si el usuario tiene el libro entra a retirarlo
-                                        // de tener libros pero no ese CASE = 2
-
-                                        users.get(i).getMyBooks().remove(k);
-                                        book.setCant(book.getCant() + 1);
-                                        for (int j = 0; j < books.size(); j++) {
-                                        //Retira el libro satisfactoriamente CASE = 0 y sale del bucle
-                                            if (book.getIdNumber() == books.get(j).getIdNumber()) {
-                                                books.get(j).setCant(book.getCant());
-                                                CASE = 0;
-                                                break;
-                                            }
-                                        }
-                                        break;
-                                    } else {
-                                        CASE = 2;
-                                    }
-                                }
-                                break;
-                            }else {
-                                CASE = 1;
-                            }
-                        }
-                        switch (CASE) {
-                            case 1:
-                                 texto = "usuario no encontrado";
-                                break;
-                            case 2:
-                                texto = "el usuario no tiene este libro en prestamo";
-                                break;
-                            case 3:
-                                texto = "el usuario no tiene libros en prestamo";
-                                break;
-                            default:
-                                texto = "libro devuelto correctamente";
-                                break;
-                        }
-                        saveUsers();
-                        saveLogins();
-                        saveBooks();
+                        String texto = devolver(input.getText().toString());
                         Toast.makeText(getActivity(),texto,Toast.LENGTH_SHORT).show();
                     }
                 }).setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
@@ -261,8 +178,143 @@ public class BookDetailFragment extends Fragment {
             }
         });
 
+        borrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("Está seguro de querer eliminar el libro");
+                builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        eliminar();
+                        Toast.makeText(getActivity(),"libro eliminado con éxito",Toast.LENGTH_SHORT).show();
+                    }
+                }).setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                }).show().setCancelable(false);
 
+            }
+        });
         return view;
+    }
+
+    public void eliminar(){
+        loadBooks();
+        devolverTodos();
+        for(int i = 0;i< books.size();i++){
+            if(books.get(i).getIdNumber()==book.getIdNumber()){
+                books.remove(i);
+            }
+        }
+        saveBooks();
+        getActivity().onBackPressed();
+    }
+
+    public String devolver (String input){
+        // se deben cargar de nuevo los datos
+        loadUsers();
+        loadLog();
+        loadBooks();
+        int CASE = 0;
+        String texto;
+
+
+        for (int i = 0; i < users.size(); i++) {
+            //recorre los usuarios
+            if (input.equals(users.get(i).getDocument())&& !users.get(i).isAdmin) {
+                //si lo encuentra o no es administrador inicia el for, si no reinicia el bucle anterior
+                //si termina sin encontrar el usuario CASE =1
+
+                for (int k = 0; k < users.get(i).getMyBooks().size(); k++) {
+                    // Recorre los libros
+                    if(users.get(i).getMyBooks().isEmpty()){
+                        //si ese usuario no tiene libros no ejecuta la busqueda y sale del ciclo
+                        //CASE = 3
+
+                        CASE = 3;
+                        break;
+                    }else if (users.get(i).getMyBooks().get(k).getIdNumber() == book.getIdNumber()) {
+                        //si el usuario tiene el libro entra a retirarlo
+                        // de tener libros pero no ese CASE = 2
+
+                        users.get(i).getMyBooks().remove(k);
+                        book.setCant(book.getCant() + 1);
+                        for (int j = 0; j < books.size(); j++) {
+                            //Retira el libro satisfactoriamente CASE = 0 y sale del bucle
+                            if (book.getIdNumber() == books.get(j).getIdNumber()) {
+                                books.get(j).setCant(book.getCant());
+                                CASE = 0;
+                                break;
+                            }
+                        }
+                        break;
+                    } else {
+                        CASE = 2;
+                    }
+                }
+                break;
+            }else {
+                CASE = 1;
+            }
+        }
+        switch (CASE) {
+            case 1:
+                texto = "usuario no encontrado";
+                break;
+            case 2:
+                texto = "el usuario no tiene este libro en prestamo";
+                break;
+            case 3:
+                texto = "el usuario no tiene libros en prestamo";
+                break;
+            default:
+                texto = "libro devuelto correctamente";
+                break;
+        }
+        saveUsers();
+        saveLogins();
+        saveBooks();
+
+        return texto;
+    }
+
+    public void devolverTodos (){
+        String texto;
+        for(User user:users){
+            texto = devolver(user.getDocument());
+            System.out.println(texto);
+        }
+    }
+
+    public void reservar (){
+        loadUsers();
+        loadBooks();
+        loadLog();
+        for (int k = 0; k < books.size(); k++) {
+            if (book.getIdNumber() == books.get(k).getIdNumber()) {
+                books.get(k).setCant(book.getCant() - 1);
+                book.setCant(book.getCant() - 1);
+                break;
+            }
+
+        }
+        for (int i = 0; i < users.size(); i++) {
+
+            if (auxLogged.getDocument().equals(users.get(i).getDocument())) {
+
+                users.get(i).addBook(book);
+                break;
+            }
+        }
+        logins.get(0).getUser().addBook(book);
+
+        saveUsers();
+        saveLogins();
+        saveBooks();
+
     }
 
     public void loadUsers() {
@@ -291,7 +343,6 @@ public class BookDetailFragment extends Fragment {
         books = gson.fromJson(itemsJson, type);
 
     }
-
 
     public void saveUsers() {
         SharedPreferences.Editor editor = sharedPreferences.edit();

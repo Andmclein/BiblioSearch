@@ -113,18 +113,23 @@
 
         <Button
             android:id="@+id/reservar_libro"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:text="@string/reserve" />
         <Button
+            android:id="@+id/borrar_libro"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="@string/delete_book" />
+        <Button
             android:id="@+id/devolucion_libro"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:text="@string/return_book" />
 
         <Button
             android:id="@+id/historial_libro"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:text="@string/history" />
     </LinearLayout>

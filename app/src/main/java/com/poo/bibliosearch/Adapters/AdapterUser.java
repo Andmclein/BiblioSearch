@@ -131,14 +131,13 @@ public class AdapterUser extends RecyclerView.Adapter<AdapterUser.ViewHolder> im
                 loadLog();
                 final String aux = users.get(position).getEmail();
                 if (aux.equals(logins.get(0).getUser().getEmail())) {
-                    System.out.println("no se puede eliminar tu propio user");
+                    Toast.makeText(v.getRootView().getContext(), "no puede eliminar su propio usuaro", Toast.LENGTH_SHORT).show();
                 } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(v.getRootView().getContext());
                     builder.setTitle("Confirmación");
                     builder.setMessage("¿Seguro que desea eliminar este usuario?").setPositiveButton("Sí", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-
                             System.out.println("eliminando " + aux);
                             users.remove(position);
                             notifyDataSetChanged();

@@ -34,7 +34,7 @@ import java.util.ArrayList;
 import static com.poo.bibliosearch.LoginScreen.BOOKS;
 import static com.poo.bibliosearch.LoginScreen.LOG;
 import static com.poo.bibliosearch.LoginScreen.SHARED_PREFS;
-import static com.poo.bibliosearch.LoginScreen.items;
+
 
 public class LibraryFragment extends Fragment implements SearchView.OnQueryTextListener, MenuItem.OnActionExpandListener{
     //Para acción del botón
@@ -141,8 +141,6 @@ public class LibraryFragment extends Fragment implements SearchView.OnQueryTextL
         return false;
     }
 
-    // 1
-
     @Override
     public boolean onQueryTextSubmit(String query) {
         return true;
@@ -173,6 +171,13 @@ public class LibraryFragment extends Fragment implements SearchView.OnQueryTextL
     public interface onFragmentButtonSelected {
         public void onButtonSelected();
 
+    }
+
+    @Override
+    public void onResume() {
+        loadBooks();
+        adapterBook.setFilter(books);
+        super.onResume();
     }
 
     @Override

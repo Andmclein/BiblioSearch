@@ -38,7 +38,8 @@
     <string name="desactivar_usuario">Desactivar Usuario</string>
     <string name="documento">Documento de identidad</string>
     <string name="ejemplo">Ejemplo</string>
-    <string name="return_book">Devolver libro</string>
+    <string name="delete_book">Eliminar</string>
+    <string name="return_book">Devolver</string>
     <string name="usuario_bloqueado">Usuario bloqueado</string>
     <string name="libros_en_prestamo">Libros que tienes en prestamo</string>
     <string name="titulo_del_libro">Titulo del libro</string>
