@@ -65,7 +65,7 @@ public class CreateBookScreen extends AppCompatActivity {
 
         if (isValidBook(name, author, description, releaseYear)) {
             load(BOOKS);
-            Book newBook = new Book(items.size(), R.drawable.ic_book_1,
+            Book newBook = new Book(items.size()+1, R.drawable.ic_book_1,
                     name, author, description, releaseYear, ratingBarStars,cant);
             items.add(newBook);
             save(items, BOOKS);

@@ -44,7 +44,7 @@ public class RegisterScreen extends AppCompatActivity {
 
     public String college, confirmPassword, createPassword, email, lastName, firstName, userName,document;
     public Switch switch_is_admin;
-    public Boolean switchIsAdmin=false;
+    public Boolean switchIsAdmin;
     public Button register;
 
     User aux;
